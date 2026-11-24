@@ -1,0 +1,56 @@
+This is a detailed explanation for our greedy code please read it to give you a better understanding for our code and the complexity analysis for it:
+
+
+1- First let's start by explaining how we understood the problem and how we developed the code accordingly:
+
+The problem presents a constrained selection challenge in which we must choose a combination of fruits that meet three key conditions:
+(1) the total weight must not exceed a specified maximum
+(2) the total cost must exactly match a given value
+(3) the total freshness must meet or exceed a defined threshold. 
+
+There are logical constraints applied to the selection process as well: 
+fruits with odd weights can only be selected once
+even-weighted fruits can be selected multiple times
+only fruits available in the Spring season -Because we are in April that is considered spring ... not in Kuwait but world wild so yeah-
+
+Our goal laid in implementing a greedy algorithm that can satisfy an optimal solution efficiently by selecting fruits that offer the best cost-to-weight ratio and incrementally building a valid combination within the constraints.
+
+
+
+2- moving on we will explain our code briefly now:
+
+to make the selection total random we decided to use a dictionary and put some random fruits. We shuffle the fruit dictionary to feature solely those present during the Spring season. Before the selection process starts, the list is mixed to mimic a non-deterministic setting, creating variability in greedy choices throughout different runs. For every fruit, we determine a cost-to-weight ratio that serves as the greedy metric for prioritizing choices.
+In the greedy loop, the algorithm progressively includes fruits into the chosen list only when both weight and cost conditions are satisfied simultaneously. It simultaneously monitors overall weight, expenses, and freshness. If a fruit weighs an odd amount and has already been chosen, it is disregarded to adhere to the one-time-only policy. The cycle goes on until no additional fruits can be included without surpassing limits, or until both the maximum weight and precise cost are achieved. Ultimately, the algorithm displays the chosen fruits along with their final weight, cost, freshness, and indicates whether the selection was successful according to the established criteria
+
+
+
+3- lastly we want to do the complexity analysis:
+
+The constants: O(1)
+
+Dictionary: O(1) 
+
+Shuffling the fruits: O(n) -where n is the number of fruits-
+
+Filtering spring fruits: O(n) -scan all the fruits to check the season-
+
+Build the fruit list: O(m) -where m is the number of spring fruits-
+
+The Greedy loop: this is a bit complicated 
+outer loop is O(m)
+inner loop's worst case is that an even weighted fruit be added multiple time. So if we have e even weighted fruits repeated up to k times, the complexity should be O(m x k).
+here comes the fun part, we have a limit for the number of repeated times as the max weight and max cost so we can say that k in bounded! 
+the bound is O(m + k) ~ O(n) where m is the number of fruits and k is the iterations time 
+so the complexity is O(n)
+
+final print output: O(s) but s <= n -we can't select more than we have- so O(n)
+
+
+overall: O(n)
+
+
+why does this make sense? 
+
+In our code each major operation id bounded by the number of available items. No part of the algorithm preforms a nested iterations over the dictionary. The inner loop is also constrained by the fixed limits on the weight and cost making the total number of operations grows linearly with the input size.
+
+

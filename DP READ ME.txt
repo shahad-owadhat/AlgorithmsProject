@@ -1,0 +1,58 @@
+This is a detailed explanation for our DP code please read it to give you a better understanding for our code and the complexity analysis for it:
+
+
+1- First let's start by explaining how we understood the problem and how we developed the code accordingly:
+
+The problem presents a constrained selection challenge in which we must choose a combination of fruits that meet three key conditions:
+(1) the total weight must not exceed a specified maximum
+(2) the total cost must exactly match a given value
+(3) the total freshness must meet or exceed a defined threshold. 
+
+There are logical constraints applied to the selection process as well: 
+fruits with odd weights can only be selected once
+even-weighted fruits can be selected multiple times
+only fruits available in the Spring season -Because we are in April that is considered spring ... not in Kuwait but world wild so yeah-
+
+Our goal laid in implementing a Dp algorithm that can satisfy an optimal solution efficiently by: selecting the optimal substructure as the best solution for weight w and cost c depends on smaller subproblems (w-weight[i], c-cost[i])
+dp[w][c] = maximum total freshness we can get with total weight = w and cost = c 
+
+
+2- moving on we will explain our code briefly now:
+
+to make the selection total random we decided to use a dictionary and put some random fruits. We shuffle the fruit dictionary to feature solely those present during the Spring season. Before the selection process starts, the list is mixed to mimic a non-deterministic setting, creating variability in greedy choices throughout different runs. For every fruit, we determine  the optimal substructure as (w-weight[i], c-cost[i])
+In the DP loop, the algorithm will take fruits that weigh 1 kg (minimum) to get the optimal solution and can use it 25 times if it was even IF IT CONSIDERED 1 AS EVEN it will be the optimal solution. The loop goes through each fruit and simulates adding it multiple times (if it has even weight) or just once (if odd weight). For every possible current total weight and cost already achieved (dp[w][c]), it tries adding this fruit and checks if the new total weight and cost stay within limits. If so, it calculates the new freshness and updates the DP table only if this path gives higher freshness than before. This way, it builds up the best freshness possible for every weight-cost combination step-by-step, simulating all ways of choosing fruits while respecting the allowed limits and usage rules (unlimited for even, once for odd) 
+
+Ultimately, the algorithm displays the chosen fruits along with their final weight, cost, freshness, and show Total combinations that match the optimal solution.
+
+
+3- lastly we want to do the complexity analysis:
+
+The constants: O(1)
+
+Dictionary: O(1) 
+
+Shuffling the fruits: O(n) -where n is the number of fruits-
+
+Filtering spring fruits: O(n) -scan all the fruits to check the season-
+
+Build the fruit list: O(m) -where m is the number of spring fruits-
+
+The Greedy loop: this is a bit complicated 
+outer loop is O(m) and this loop will repeat times up to the max-weight which is bounded by 25 in our case so this will be O(25): which will mean: O(1)
+the inner loop is a nested loop where it will repeat O(max-weight x max-cost) for each weight and cost as (25* 20) so : O(1)
+
+lets gather our thoughts now shall we, 
+per fruit O(1) and all fruits O(m) oh but lets remember that we do a copy of the dp in the loop considering O( w X c) which is O(1) 
+sum up: the final is O(m) -note that the m here is going to be considered n (spring fruit)-
+
+final print output: O(s) but s <= n -we can't select more than we have- so O(n)
+
+
+overall: O(n)
+
+
+why does this make sense? 
+
+In our code each major operation id bounded by the number of available items. we can see a nested loop in the DP logic but this loop is bounded as well by a fixed limit so it's not technically a nested loop so. even though the DP table is updated multiple times, the total number of updates grows in proportion to the number of fruits. Nothing depends on a growing weight or cost range or something which ultimately means that the number of operations increases linearly with the input size.
+
+
